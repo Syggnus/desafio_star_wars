@@ -15,11 +15,6 @@ class _CharsPageState extends State<CharsPage> {
   SqlDb mysql = SqlDb();
   bool changeMetodo = true;
 
-  Future<List<Map>> readData() async {
-    List<Map> response = await mysql.readData("SELECT * FROM films");
-    return response;
-  }
-
   @override
   void initState() {
     getChars();
