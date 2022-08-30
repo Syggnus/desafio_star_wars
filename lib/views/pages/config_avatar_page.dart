@@ -32,7 +32,7 @@ class ConfigAvatarPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pop(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const HomePage(),

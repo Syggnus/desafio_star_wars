@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluttermoji/fluttermojiCircleAvatar.dart';
-
 import 'home_page.dart';
 
 class InAppBrowserPage extends StatefulWidget {
@@ -37,7 +36,7 @@ class _InAppBrowserPageState extends State<InAppBrowserPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pop(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const HomePage(),
