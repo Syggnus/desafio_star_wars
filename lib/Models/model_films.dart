@@ -2,7 +2,7 @@ class Films {
   int? count;
   dynamic next;
   dynamic previous;
-  List<Results>? results;
+  List<ResultsFilms>? results;
 
   Films({this.count, this.next, this.previous, this.results});
 
@@ -11,9 +11,9 @@ class Films {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <ResultsFilms>[];
       json['results'].forEach((v) {
-        results!.add(Results.fromJson(v));
+        results!.add(ResultsFilms.fromJson(v));
       });
     }
   }
@@ -30,7 +30,7 @@ class Films {
   }
 }
 
-class Results {
+class ResultsFilms {
   String? title;
   int? episodeId;
   String? openingCrawl;
@@ -46,7 +46,7 @@ class Results {
   String? edited;
   String? url;
 
-  Results(
+  ResultsFilms(
       {this.title,
       this.episodeId,
       this.openingCrawl,
@@ -62,7 +62,7 @@ class Results {
       this.edited,
       this.url});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  ResultsFilms.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     episodeId = json['episode_id'];
     openingCrawl = json['opening_crawl'];
