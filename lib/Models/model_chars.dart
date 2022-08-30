@@ -2,7 +2,7 @@ class Chars {
   int? count;
   String? next;
   dynamic previous;
-  List<Results>? results;
+  List<ResultsChars>? results;
 
   Chars({this.count, this.next, this.previous, this.results});
 
@@ -11,9 +11,9 @@ class Chars {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <ResultsChars>[];
       json['results'].forEach((v) {
-        results!.add(Results.fromJson(v));
+        results!.add(ResultsChars.fromJson(v));
       });
     }
   }
@@ -30,7 +30,7 @@ class Chars {
   }
 }
 
-class Results {
+class ResultsChars {
   String? name;
   String? height;
   String? mass;
@@ -48,7 +48,7 @@ class Results {
   String? edited;
   String? url;
 
-  Results(
+  ResultsChars(
       {this.name,
       this.height,
       this.mass,
@@ -66,7 +66,7 @@ class Results {
       this.edited,
       this.url});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  ResultsChars.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     height = json['height'];
     mass = json['mass'];
