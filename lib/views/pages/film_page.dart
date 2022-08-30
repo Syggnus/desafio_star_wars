@@ -1,9 +1,6 @@
-import 'package:desafio_star_wars/Models/model_films.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'dart:convert';
-
-import '../../controllers/films_api.dart';
+import '../../controllers/api_controller.dart';
+import '../../database/database.dart';
 
 class FilmsPage extends StatefulWidget {
   const FilmsPage({Key? key}) : super(key: key);
@@ -13,37 +10,64 @@ class FilmsPage extends StatefulWidget {
 }
 
 class _MoviesPageState extends State<FilmsPage> {
-  var results = <Results>[];
+  final ApiController _controller = ApiController();
+  SqlDb mysql = SqlDb();
+  bool changeMetodo = true;
 
   @override
   void initState() {
-    _getFilmes();
+    getFilms();
     super.initState();
   }
 
-  _getFilmes() {
-    FilmsApi.getFilms().then((response) {
-      if (mounted) {
-        setState(() {
-          var respost = json.decode(response.body);
-          var data = respost["results"] as List;
-          results = data.map((e) => Results.fromJson(e)).toList();
-        });
-      }
-    });
+  getFilms() async {
+    await _controller.getApiFilms();
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) => ListTile(
-        title: Text(results[index].title!),
-        trailing: IconButton(
-          icon: const Icon(Icons.star),
-          onPressed: () {},
-        ),
-      ),
-    );
+    return _controller.resultsFilms.isEmpty
+        ? Container(
+            color: Colors.black,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const <Widget>[
+                  CircularProgressIndicator.adaptive(
+                    backgroundColor: Colors.amber,
+                  ),
+                ],
+              ),
+            ),
+          )
+        : ListView.builder(
+            itemCount: _controller.resultsFilms.length,
+            itemBuilder: (context, index) => ListTile(
+              title: Text(_controller.resultsFilms[index].title!),
+              trailing: IconButton(
+                icon: const Icon(Icons.star),
+                onPressed: () {
+                  setState(
+                    () {
+                      if (changeMetodo == true) {
+                        mysql.insertData('''INSERT INTO films ('title')
+                      VALUES ("${_controller.resultsFilms[index].title!}")
+                      ''');
+                        changeMetodo == false;
+                      } else {
+                        mysql.deleteData(
+                            'DELETE FROM films WHERE title = "${_controller.resultsFilms[index].title!}"');
+                        changeMetodo == true;
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+          );
   }
 }
